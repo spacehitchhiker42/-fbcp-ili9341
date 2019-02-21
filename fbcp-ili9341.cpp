@@ -29,6 +29,10 @@
 #include "mem_alloc.h"
 #include "keyboard.h"
 
+#ifdef XPT_2046
+#include "XPT2046.h"
+#endif
+
 int CountNumChangedPixels(uint16_t *framebuffer, uint16_t *prevFramebuffer)
 {
   int changedPixels = 0;
@@ -107,6 +111,11 @@ int main()
   int spiX = -1;
   int spiY = -1;
   int spiEndX = DISPLAY_WIDTH;
+		
+	
+#ifdef XPT_2046
+	XPT2046 xpt2046;
+#endif
 
   InitGPU();
 
@@ -139,6 +148,9 @@ int main()
   printf("All initialized, now running main loop...\n");
   while(programRunning)
   {
+#ifdef XPT_2046
+	  xpt2046.read_touchscreen();
+#endif
     prevFrameWasInterlacedUpdate = interlacedUpdate;
 
     // If last update was interlaced, it means we still have half of the image pending to be updated. In such a case,

@@ -5,6 +5,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 include_directories(/opt/vc/include)
+include_directories("Include")
 link_directories(/opt/vc/lib)
 
 file(GLOB sourceFiles *.cpp)
@@ -16,7 +17,7 @@ endif()
 
 # Detect if current hardware is Raspberry Pi Zero/Zero W, and enable targeting Zero with -DSINGLE_CORE_BOARD=ON if so.
 execute_process(COMMAND cat /proc/cpuinfo OUTPUT_VARIABLE CPU_INFO)
-STRING(REGEX MATCH "Revision[\t ]*:[\t ]*([0-9a-f]+)" BOARD_REVISION ${CPU_INFO})
+STRING(REGEX MATCH "Revision[\t ]*:[\t ]*([0-9a-f]+)" BOARD_REVISION "${CPU_INFO}")
 set(BOARD_REVISION "${CMAKE_MATCH_1}")
 message(STATUS "Board revision: ${CMAKE_MATCH_1}")
 
@@ -251,6 +252,11 @@ else()
 	message(FATAL_ERROR "Please specify which display controller to use on command line to CMake!")
 endif()
 
+OPTION(XPT2046 "XPT2046" OFF)
+IF(XPT2046)
+    ADD_DEFINITIONS(-DXPT_2046)
+ENDIF(XPT2046)
+
 add_executable(fbcp-ili9341 ${sourceFiles})
 
-target_link_libraries(fbcp-ili9341 pthread bcm_host atomic)
+target_link_libraries(fbcp-ili9341 pthread bcm_host atomic ${CMAKE_CURRENT_SOURCE_DIR}/lib/libbcm_host.so)
