@@ -23,6 +23,7 @@
  */
 
 #include "XPT2046.h"
+#include "util.h"
 
 #define XPT2046_CFG_START   1<<7
 
@@ -107,6 +108,7 @@ int XPT2046::SpiWriteAndRead(unsigned char *data, int length)
 
 void XPT2046::read_touchscreen() {
 		
+	
 	uint32_t old_spi_cs = spi->cs;
 	uint32_t old_spi_clk = spi->clk;
 	//printBits(sizeof(old_spi_cs), (void*)&(old_spi_cs));
@@ -122,13 +124,14 @@ void XPT2046::read_touchscreen() {
 		_lastY = y;
 	}
 	
-	if (z > 100) 
+	if (z>100) 
 	{
 		char output[30] = "";
 		sprintf(output, "x:%d, y:%d, z:%d\n", x, y, z);
-		int fd = open(tcfifo, O_WRONLY); 
-		write(fd, output, strlen(output) + 1); 
-		close(fd); 
+		LOG(output);
+		//int fd = open(tcfifo, O_WRONLY); 
+		//write(fd, output, strlen(output) + 1); 
+		//close(fd); 
 	}
 		
 	

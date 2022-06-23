@@ -259,4 +259,4 @@ ENDIF(XPT2046)
 
 add_executable(fbcp-ili9341 ${sourceFiles})
 
-target_link_libraries(fbcp-ili9341 pthread bcm_host atomic ${CMAKE_CURRENT_SOURCE_DIR}/lib/libbcm_host.so)
+target_link_libraries(fbcp-ili9341 pthread bcm_host atomic )
