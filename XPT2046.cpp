@@ -24,6 +24,7 @@
 
 #include "XPT2046.h"
 #include "util.h"
+#include <linux/uinput.h>
 
 #define XPT2046_CFG_START   1<<7
 
@@ -72,7 +73,37 @@ XPT2046::XPT2046() {
     // FIFO file path 
 	// Creating the named file(FIFO) 
 	// mkfifo(<pathname>, <permission>) 
-	mkfifo(tcfifo, 0666); 
+	//mkfifo(tcfifo, 0666); 
+        struct uinput_setup usetup;
+        errno=0;
+       fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK); 
+        if ( errno != 0 ) 
+   {
+    FATAL_ERROR("failed to open uinput")
+   }
+
+        ioctl(fd, UI_SET_EVBIT, EV_KEY);
+        ioctl(fd, UI_SET_KEYBIT, BTN_TOUCH);
+
+        ioctl(fd, UI_SET_EVBIT, EV_ABS);
+        ioctl(fd, UI_SET_ABSBIT, ABS_X);
+        ioctl(fd, UI_SET_ABSBIT, ABS_Y);
+        memset(&usetup, 0, sizeof(usetup));
+
+   usetup.id.bustype = BUS_USB;
+   usetup.id.vendor = 0x1234; /* sample vendor */
+   usetup.id.product = 0x5678; /* sample product */
+   strcpy(usetup.name, "TFT touchscreen");
+
+   ioctl(fd, UI_DEV_SETUP, &usetup);
+   ioctl(fd, UI_DEV_CREATE);
+
+   if ( errno != 0 ) 
+   {
+    FATAL_ERROR("failed to create touch device")
+   }
+
+
 }
 
 

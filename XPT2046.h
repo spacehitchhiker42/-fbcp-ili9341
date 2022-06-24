@@ -98,6 +98,10 @@ class XPT2046 {
 	
 	    uint32_t z_average = 0;
 
+        int fd=0;
+
+
+
 		char * tcfifo = "/tmp/TCfifo";
 };
 
