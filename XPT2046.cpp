@@ -152,7 +152,7 @@ void XPT2046::read_touchscreen() {
 	read(&x, &y, &z);
 	
 	
-	if (z>300) 
+	if (z>150) 
 	{
         touchstate=true;
 		char output[30] = "";
