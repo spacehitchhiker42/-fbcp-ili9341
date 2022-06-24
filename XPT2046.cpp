@@ -157,7 +157,7 @@ void XPT2046::read_touchscreen() {
         touchstate=true;
 		char output[30] = "";
 		sprintf(output, "x:%d, y:%d, z:%d\n", x, y, z);
-		LOG(output);
+		//LOG(output);
 		//int fd = open(tcfifo, O_WRONLY); 
 		//write(fd, output, strlen(output) + 1); 
 		//close(fd); 
