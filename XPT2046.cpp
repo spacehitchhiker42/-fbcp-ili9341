@@ -150,19 +150,41 @@ void XPT2046::read_touchscreen() {
 	
 	uint16_t x, y, z;
 	read(&x, &y, &z);
-	if (abs(x - _lastX) > _minChange || abs(y - _lastY) > _minChange) {
-		_lastX = x;
-		_lastY = y;
-	}
+	
 	
 	if (z>100) 
 	{
+        touchstate=true;
 		char output[30] = "";
 		sprintf(output, "x:%d, y:%d, z:%d\n", x, y, z);
 		LOG(output);
 		//int fd = open(tcfifo, O_WRONLY); 
 		//write(fd, output, strlen(output) + 1); 
 		//close(fd); 
+
+       
+    else
+    {
+        touchstate=false;
+    }
+
+
+    if(touchstate){
+
+        if(!lasttouchstate)
+        {
+
+        }
+
+
+         if (abs(x - _lastX) > _minChange || abs(y - _lastY) > _minChange) {
+		_lastX = x;
+		_lastY = y;
+	}
+
+    }
+
+
 	}
 		
 	
@@ -272,4 +294,18 @@ void XPT2046::readRaw(uint16_t * oX, uint16_t * oY, uint16_t * oZ) {
     *oX = x;
     *oY = y;
     *oZ = z2;
+}
+
+XPT2046::void emit(int fd, int type, int code, int val)
+{
+   struct input_event ie;
+
+   ie.type = type;
+   ie.code = code;
+   ie.value = val;
+   /* timestamp values below are ignored */
+   ie.time.tv_sec = 0;
+   ie.time.tv_usec = 0;
+
+   write(fd, &ie, sizeof(ie));
 }

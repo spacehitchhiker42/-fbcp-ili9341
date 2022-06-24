@@ -55,6 +55,7 @@ class XPT2046 {
 
         void read(uint16_t * oX, uint16_t * oY, uint16_t * oZ);
         void readRaw(uint16_t * oX, uint16_t * oY, uint16_t * oZ);
+        void emit(int fd, int type, int code, int val);
 	
 	    static void printBits(size_t const size, void const * const ptr)
 	    {
@@ -99,7 +100,8 @@ class XPT2046 {
 	    uint32_t z_average = 0;
 
         int fd=0;
-
+        bool touchstate;
+        bool lasttouchstate;
 
 
 		char * tcfifo = "/tmp/TCfifo";
