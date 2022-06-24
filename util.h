@@ -1,4 +1,5 @@
 #pragma once
+#include<syslog.h>
 
 #define ROUND_TO_NEAREST_INT(x) ((int)lround((x)))
 #define ROUND_TO_FLOOR_INT(x) ((int)(floor((x))))
