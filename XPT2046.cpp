@@ -301,7 +301,7 @@ void XPT2046::readRaw(uint16_t * oX, uint16_t * oY, uint16_t * oZ) {
     *oZ = z2;
 }
 
-XPT2046::emit(int fd, int type, int code, int val)
+void XPT2046::emit(int fd, int type, int code, int val)
 {
    struct input_event ie;
 
