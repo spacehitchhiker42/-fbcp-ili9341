@@ -79,7 +79,7 @@ XPT2046::XPT2046() {
        fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK); 
         if ( errno != 0 ) 
    {
-    FATAL_ERROR("failed to open uinput")
+    FATAL_ERROR("failed to open uinput");
    }
 
         ioctl(fd, UI_SET_EVBIT, EV_KEY);
@@ -100,7 +100,7 @@ XPT2046::XPT2046() {
 
    if ( errno != 0 ) 
    {
-    FATAL_ERROR("failed to create touch device")
+    FATAL_ERROR("failed to create touch device");
    }
 
 
