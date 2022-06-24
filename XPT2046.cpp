@@ -185,7 +185,7 @@ void XPT2046::read_touchscreen() {
     }
 
 
-	}
+	
 		
 	
 	//spi->cs = (old_spi_cs | 1 << 4 | 1 << 5) & (~(1 << 7)); //Clear Fifos and TA
