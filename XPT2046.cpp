@@ -171,20 +171,25 @@ void XPT2046::read_touchscreen() {
 
     if(touchstate){
 
-        if(!lasttouchstate)
-        {
-
-        }
-
-
+ 
          if (abs(x - _lastX) > _minChange || abs(y - _lastY) > _minChange) {
 		_lastX = x;
 		_lastY = y;
+
+        emit(fd, EV_ABS, ABS_X, x);
+        emit(fd, EV_ABS, ABS_Y, y);
+        emit(fd, EV_SYN, SYN_REPORT, 0);
+
+
 	}
 
     }
 
-
+    if(touchstate!=lasttouchstate)
+    {
+        emit(fd, EV_KEY, BTN_TOUCH, touchstate);
+        emit(fd, EV_SYN, SYN_REPORT, 0);
+    }
 	
 		
 	
@@ -296,7 +301,7 @@ void XPT2046::readRaw(uint16_t * oX, uint16_t * oY, uint16_t * oZ) {
     *oZ = z2;
 }
 
-XPT2046::void emit(int fd, int type, int code, int val)
+XPT2046::emit(int fd, int type, int code, int val)
 {
    struct input_event ie;
 
