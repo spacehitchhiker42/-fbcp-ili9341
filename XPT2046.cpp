@@ -93,7 +93,7 @@ XPT2046::XPT2046() {
    usetup.id.bustype = BUS_USB;
    usetup.id.vendor = 0x1234; /* sample vendor */
    usetup.id.product = 0x5678; /* sample product */
-   strcpy(usetup.name, "TFT touchscreen");
+   strcpy(usetup.name, "FBCP touchscreen");
 
    ioctl(fd, UI_DEV_SETUP, &usetup);
    ioctl(fd, UI_DEV_CREATE);
