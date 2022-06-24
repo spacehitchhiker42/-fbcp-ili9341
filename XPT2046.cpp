@@ -48,7 +48,7 @@ XPT2046::XPT2046() {
     _maxValue = 0x0fff;
     _width = 480;
     _height = 320;
-    _rotation = 2;
+    _rotation = 3;
 
     _minX = 0;
     _minY = 0;
