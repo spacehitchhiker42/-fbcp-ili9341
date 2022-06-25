@@ -278,6 +278,8 @@ void XPT2046::readRaw(uint16_t * oX, uint16_t * oY, uint16_t * oZ) {
     z1 /= i;
     z2 /= i;
 
+
+
     switch(_rotation) {
         case 0:
         default:
@@ -311,6 +313,12 @@ void XPT2046::emit(int fd, int type, int code, int val)
    /* timestamp values below are ignored */
    ie.time.tv_sec = 0;
    ie.time.tv_usec = 0;
-
+    errno=0;
    write(fd, &ie, sizeof(ie));
+
+     if ( errno != 0 ) 
+   {
+    FATAL_ERROR("failed to create touch device");
+   }
+
 }
