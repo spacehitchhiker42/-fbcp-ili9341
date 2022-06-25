@@ -74,7 +74,7 @@ XPT2046::XPT2046() {
 	// Creating the named file(FIFO) 
 	// mkfifo(<pathname>, <permission>) 
 	//mkfifo(tcfifo, 0666); 
-        struct uinput_setup usetup;
+        struct uinput_user_dev uidev
         errno=0;
        fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK); 
         if ( errno != 0 ) 
@@ -88,20 +88,32 @@ XPT2046::XPT2046() {
         ioctl(fd, UI_SET_EVBIT, EV_ABS);
         ioctl(fd, UI_SET_ABSBIT, ABS_X);
         ioctl(fd, UI_SET_ABSBIT, ABS_Y);
-        memset(&usetup, 0, sizeof(usetup));
+        
 
-   usetup.id.bustype = BUS_USB;
-   usetup.id.vendor = 0x1234; /* sample vendor */
-   usetup.id.product = 0x5678; /* sample product */
-   strcpy(usetup.name, "FBCP touchscreen");
+    memset(&uidev, 0, sizeof(uidev));                                           
+    snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "FBCP touchscreen");
+    uidev.id.bustype = BUS_USB;                                                 
+    uidev.id.vendor  = 0x1;                                                     
+    uidev.id.product = 0x1;                                                     
+    uidev.id.version = 1;
 
-   ioctl(fd, UI_DEV_SETUP, &usetup);
-   ioctl(fd, UI_DEV_CREATE);
+    uidev.absmin[ABS_X]=0;                                                      
+    uidev.absmax[ABS_X]=480;                                                   
+    uidev.absfuzz[ABS_X]=0;                                                     
+    uidev.absflat[ABS_X ]=0;                                                    
+    uidev.absmin[ABS_Y]=0;                                                      
+    uidev.absmax[ABS_Y]=320;                                                    
+    uidev.absfuzz[ABS_Y]=0;                                                     
+    uidev.absflat[ABS_Y ]=0;
 
-   if ( errno != 0 ) 
-   {
-    FATAL_ERROR("failed to create touch device");
-   }
+
+
+   if(write(fd, &uidev, sizeof(uidev)) < 0)                                    
+        FATAL_ERROR("uidev write failed"); 
+
+
+   if(ioctl(fd, UI_DEV_CREATE) < 0)                                            
+        FATAL_ERROR("uidev create failed");
 
 
 }
