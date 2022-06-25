@@ -161,7 +161,7 @@ void XPT2046::read_touchscreen() {
 	// touch on low
 	
 	uint16_t x, y, z;
-	read(&x, &y, &z);
+	read(&y, &x, &z);
 	
 	
 	if (z>80) 
