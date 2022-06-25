@@ -74,7 +74,7 @@ XPT2046::XPT2046() {
 	// Creating the named file(FIFO) 
 	// mkfifo(<pathname>, <permission>) 
 	//mkfifo(tcfifo, 0666); 
-        struct uinput_user_dev uidev
+        struct uinput_user_dev uidev;
         errno=0;
        fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK); 
         if ( errno != 0 ) 
