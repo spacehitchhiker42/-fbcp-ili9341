@@ -178,7 +178,7 @@ void XPT2046::read_touchscreen() {
     else
     {
         touchstate=false;
-    }
+    } 
 
 
     if(touchstate){
