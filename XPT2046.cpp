@@ -188,8 +188,8 @@ void XPT2046::read_touchscreen() {
 		_lastX = x;
 		_lastY = y;
 
-        emit(fd, EV_ABS, ABS_X, x);
-        emit(fd, EV_ABS, ABS_Y, y);
+        emit(fd, EV_ABS, ABS_X, y);
+        emit(fd, EV_ABS, ABS_Y, x);
         emit(fd, EV_SYN, SYN_REPORT, 0);
 
 
