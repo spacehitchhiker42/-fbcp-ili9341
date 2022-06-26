@@ -290,7 +290,7 @@ void XPT2046::readRaw(uint16_t * oX, uint16_t * oY, uint16_t * oZ) {
     z1 /= i;
     z2 /= i;
 
-    _rotation=1;
+    _rotation=3;
 
     switch(_rotation) {
         case 0:
